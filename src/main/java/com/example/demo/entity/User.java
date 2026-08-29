@@ -24,4 +24,9 @@ public class User {
     private List<String> notes = new ArrayList<>();
     @ElementCollection
     private List<String> roles = new ArrayList<>();
+
+    @Lob
+    private byte[] image;
+
+    private String imageType;
 }

@@ -16,10 +16,21 @@ public class LocationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
+        if (httpRequest.getRequestURI().startsWith("/h2-console")) {
+            filterChain.doFilter(servletRequest,servletResponse); // Pass through without filtering
+            return;
+        }
+
         String location = httpRequest.getHeader("User-Location");
+        System.out.println(
+                "Request: " + httpRequest.getRequestURI()
+                        + " | Location: " + location
+        );
         if ("India".equalsIgnoreCase(location)){
             filterChain.doFilter(servletRequest,servletResponse);
+            return;
         }
+
         else {
             httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             httpResponse.setContentType("text/plain");
